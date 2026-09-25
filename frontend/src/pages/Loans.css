@@ -1,0 +1,169 @@
+.loans-page {
+    padding: 30px;
+}
+
+.loans-header {
+    margin-bottom: 25px;
+}
+
+.loans-header h1 {
+    margin: 0;
+    font-size: 30px;
+}
+
+.loans-header p {
+    color: #666;
+    margin-top: 8px;
+}
+
+.loan-card {
+    max-width: 650px;
+    background: white;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.loan-form-group {
+    margin-bottom: 20px;
+}
+
+.loan-form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.loan-form-group input,
+.loan-form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+.loan-form-group input:focus,
+.loan-form-group select:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+.create-loan-btn {
+    width: 10%;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.create-loan-btn:hover {
+    opacity: 0.9;
+}
+
+.no-customer-message {
+    margin-top: 8px;
+    color: #dc2626;
+    font-size: 14px;
+}
+.form-description {
+    color: #666;
+    margin-top: 5px;
+    margin-bottom: 25px;
+}
+
+.loan-list-card {
+    margin-top: 30px;
+
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 14px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.loan-list-header {
+    margin-bottom: 20px;
+}
+
+.loan-list-header h2 {
+    margin: 0;
+}
+
+.loan-list-header p {
+    color: #666;
+    margin-top: 5px;
+}
+
+.empty-loans {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.empty-loans h3 {
+    margin-bottom: 8px;
+}
+
+.empty-loans p {
+    color: #666;
+}
+
+.loan-table-container {
+    overflow-x: auto;
+}
+
+.loan-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.loan-table th,
+.loan-table td {
+    padding: 14px;
+
+    text-align: left;
+
+    border-bottom: 1px solid #eee;
+
+    white-space: nowrap;
+}
+
+.loan-table th {
+    background: #f8fafc;
+
+    font-weight: 600;
+}
+
+.loan-table tr:hover {
+    background: #f9fafb;
+}
+.paid-amount {
+    color: #15803d;
+    font-weight: 600;
+}
+
+.pending-amount {
+    color: #dc2626;
+    font-weight: 600;
+}
+
+.loans-table-card {
+    overflow: hidden;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.loans-table-card table {
+    min-width: 1100px;
+}
+.loans-table-card table {
+    min-width: 1100px;
+}

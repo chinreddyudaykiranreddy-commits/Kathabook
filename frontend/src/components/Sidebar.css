@@ -1,0 +1,160 @@
+
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background: #111827;
+    color: white;
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+}
+
+
+/* Logo */
+
+.sidebar-logo {
+    height: 80px;
+    padding: 0 22px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid #263244;
+}
+
+.logo-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: #4f46e5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.sidebar-logo h2 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.sidebar-logo span {
+    font-size: 11px;
+    color: #9ca3af;
+}
+
+
+/* Navigation */
+
+.sidebar-nav {
+    padding: 20px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 13px 15px;
+    color: #cbd5e1;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: 0.2s;
+}
+
+.nav-item:hover {
+    background: #1f2937;
+    color: white;
+}
+
+.nav-item.active {
+    background: #4f46e5;
+    color: white;
+    font-weight: 600;
+}
+
+.nav-item span {
+    width: 22px;
+    text-align: center;
+}
+
+
+/* Bottom */
+
+.sidebar-bottom {
+    margin-top: auto;
+    padding: 15px 12px;
+    border-top: 1px solid #263244;
+}
+
+.logout-nav-button {
+    width: 100%;
+    padding: 13px 15px;
+    border: none;
+    background: transparent;
+    color: #cbd5e1;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    text-align: left;
+}
+
+.logout-nav-button:hover {
+    background: #7f1d1d;
+    color: white;
+}
+
+
+/* Mobile */
+
+@media (max-width: 768px) {
+
+    .sidebar {
+        width: 70px;
+    }
+
+    .sidebar-logo {
+        padding: 0;
+        justify-content: center;
+    }
+
+    .sidebar-logo > div:last-child {
+        display: none;
+    }
+
+    .sidebar-nav {
+        padding: 15px 8px;
+    }
+
+    .nav-item {
+        justify-content: center;
+        padding: 13px 8px;
+    }
+
+    .nav-item span {
+        font-size: 20px;
+    }
+
+    .nav-item {
+        font-size: 0;
+    }
+
+    .logout-nav-button {
+        justify-content: center;
+        padding: 13px 8px;
+        font-size: 0;
+    }
+
+    .logout-nav-button span {
+        font-size: 20px;
+    }
+}
