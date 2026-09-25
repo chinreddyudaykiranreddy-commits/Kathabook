@@ -1,8 +1,12 @@
 
 import axios from "axios";
 
+const API_BASE_URL =
+    import.meta.env.VITE_API_URL ||
+    "https://kathabook-2.onrender.com";
+
 const api = axios.create({
-    baseURL: "http://127.0.0.1:8000/api/",
+    baseURL: `${API_BASE_URL}/api/`,
 });
 
 // ===============================
@@ -56,7 +60,7 @@ api.interceptors.response.use(
 
             try {
                 const response = await axios.post(
-                    "http://127.0.0.1:8000/api/auth/token/refresh/",
+                    `${API_BASE_URL}/api/auth/token/refresh/`,
                     {
                         refresh: refreshToken,
                     }
