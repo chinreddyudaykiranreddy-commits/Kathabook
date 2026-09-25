@@ -1,9 +1,16 @@
 
 import axios from "axios";
 
-const API_BASE_URL =
+const defaultBackendUrl =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1"
+        ? "http://127.0.0.1:8000"
+        : "https://kathabook-2.onrender.com";
+
+const API_BASE_URL = (
     import.meta.env.VITE_API_URL ||
-    "https://kathabook-2.onrender.com";
+    defaultBackendUrl
+).replace(/\/+$/, "");
 
 const api = axios.create({
     baseURL: `${API_BASE_URL}/api/`,
@@ -59,8 +66,8 @@ api.interceptors.response.use(
             }
 
             try {
-                const response = await axios.post(
-                    `${API_BASE_URL}/api/auth/token/refresh/`,
+                const response = await api.post(
+                    "auth/token/refresh/",
                     {
                         refresh: refreshToken,
                     }
