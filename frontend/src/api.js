@@ -1,5 +1,4 @@
-
-import axios from "axios";
+﻿import axios from "axios";
 
 const defaultBackendUrl =
     window.location.hostname === "localhost" ||
@@ -16,87 +15,56 @@ const api = axios.create({
     baseURL: `${API_BASE_URL}/api/`,
 });
 
-// ===============================
-// REQUEST INTERCEPTOR
-// ===============================
 api.interceptors.request.use(
     (config) => {
-        const accessToken = localStorage.getItem(
-            "kathabook_access_token"
-        );
+        const accessToken = localStorage.getItem("kathabook_access_token");
 
         if (accessToken) {
+            config.headers = config.headers || {};
             config.headers.Authorization = `Bearer ${accessToken}`;
         }
 
         return config;
     },
-    (error) => {
-        return Promise.reject(error);
-    }
+    (error) => Promise.reject(error)
 );
 
-
-// ===============================
-// RESPONSE INTERCEPTOR
-// ===============================
 api.interceptors.response.use(
-    (response) => {
-        return response;
-    },
-
+    (response) => response,
     async (error) => {
         const originalRequest = error.config;
 
-        // If server returns 401, try refreshing the access token
         if (
             error.response?.status === 401 &&
+            originalRequest &&
             !originalRequest._retry
         ) {
             originalRequest._retry = true;
 
-            const refreshToken = localStorage.getItem(
-                "kathabook_refresh_token"
-            );
+            const refreshToken = localStorage.getItem("kathabook_refresh_token");
 
-            // No refresh token = user really needs to login
             if (!refreshToken) {
                 clearAuthAndRedirect();
                 return Promise.reject(error);
             }
 
             try {
-                const response = await api.post(
-                    "auth/token/refresh/",
-                    {
-                        refresh: refreshToken,
-                    }
-                );
+                const response = await api.post("auth/token/refresh/", {
+                    refresh: refreshToken,
+                });
 
-                const newAccessToken =
-                    response.data.access;
+                const newAccessToken = response.data.access;
 
-                // Save new access token
-                localStorage.setItem(
-                    "kathabook_access_token",
-                    newAccessToken
-                );
+                localStorage.setItem("kathabook_access_token", newAccessToken);
 
-                // Update failed request
-                originalRequest.headers.Authorization =
-                    `Bearer ${newAccessToken}`;
+                originalRequest.headers = originalRequest.headers || {};
+                originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
-                // Try request again
                 return api(originalRequest);
-
             } catch (refreshError) {
-                console.log(
-                    "Refresh token failed:",
-                    refreshError.response?.data
-                );
+                console.log("Refresh token failed:", refreshError.response?.data);
 
                 clearAuthAndRedirect();
-
                 return Promise.reject(refreshError);
             }
         }
@@ -105,10 +73,6 @@ api.interceptors.response.use(
     }
 );
 
-
-// ===============================
-// CLEAR AUTH
-// ===============================
 function clearAuthAndRedirect() {
     localStorage.removeItem("kathabook_user");
     localStorage.removeItem("kathabook_access_token");
@@ -116,11 +80,6 @@ function clearAuthAndRedirect() {
 
     window.location.href = "/login";
 }
-
-
-// ===============================
-// AUTH APIs
-// ===============================
 
 export const loginUser = (data) =>
     api.post("auth/login/", data);
@@ -134,6 +93,4 @@ export const forgotPassword = (data) =>
 export const resetPassword = (data) =>
     api.post("auth/reset-password/", data);
 
-
 export default api;
-
