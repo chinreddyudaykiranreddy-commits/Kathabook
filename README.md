@@ -2,6 +2,12 @@
 
 Kathabook is a full-stack loan and customer management application for tracking customers, loans, and payment history.
 
+## Live application
+
+Visit Kathabook: [https://kathabook-frontend.onrender.com](https://kathabook-frontend.onrender.com)
+
+Backend API: [https://kathabook-2.onrender.com/api/](https://kathabook-2.onrender.com/api/)
+
 ## Stack
 - Frontend: React + Vite
 - Backend: Django + Django REST Framework
