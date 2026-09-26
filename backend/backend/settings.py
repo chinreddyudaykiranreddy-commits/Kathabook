@@ -9,48 +9,56 @@ https://docs.djangoproject.com/en/6.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
+
 import os
 from datetime import timedelta
 from pathlib import Path
 
 import dj_database_url
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-# Database configuration. Default to SQLite for local development so the app works
-# without extra environment variables, while still allowing DATABASE_URL in deployment.
-DATABASES = {
-    'default': dj_database_url.config(
-        default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
-        conn_max_age=600,
-    )
-}
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-key-change-in-production")
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", "True") == "True"
-ALLOWED_HOSTS = ["*"]
+DEBUG = os.getenv(
+    "DEBUG",
+    "False" if os.getenv("RENDER") else "True",
+).lower() == "true"
 
+SECRET_KEY = os.getenv("SECRET_KEY")
+if not SECRET_KEY:
+    if not DEBUG:
+        raise ImproperlyConfigured(
+            "Set the SECRET_KEY environment variable when DEBUG is disabled."
+        )
+    SECRET_KEY = "django-insecure-local-development-only"
+
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.getenv(
+        "ALLOWED_HOSTS",
+        "localhost,127.0.0.1,[::1],testserver,kathabook-2.onrender.com",
+    ).split(",")
+    if host.strip()
+]
+if os.getenv("RENDER_EXTERNAL_HOSTNAME"):
+    ALLOWED_HOSTS.append(os.environ["RENDER_EXTERNAL_HOSTNAME"])
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
     'http://127.0.0.1:5173',
     'https://kathabook-frontend.onrender.com',
-    'https://kathabook-2.onrender.com',
+    *[
+        origin.strip().rstrip("/")
+        for origin in os.getenv("CORS_ALLOWED_ORIGINS", "").split(",")
+        if origin.strip()
+    ],
 ]
-
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:5173',
-    'http://127.0.0.1:5173',
-    'https://kathabook-frontend.onrender.com',
-    'https://kathabook-2.onrender.com',
-]
+CSRF_TRUSTED_ORIGINS = CORS_ALLOWED_ORIGINS
 
 
 # Application definition
@@ -101,6 +109,13 @@ TEMPLATES = [
 WSGI_APPLICATION = 'backend.wsgi.application'
 
 
+DATABASES = {
+    "default": dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600,
+    )
+}
+
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
 
@@ -134,12 +149,13 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
+
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-
 STATICFILES_STORAGE = (
     "whitenoise.storage.CompressedManifestStaticFilesStorage"
 )
+
 
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
